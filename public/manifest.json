@@ -1,0 +1,16 @@
+{
+  "name": "AOP3 ANP Observatório",
+  "short_name": "AOP3",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EAEAE5",
+  "theme_color": "#EAEAE5",
+  "description": "App para consulta de preço de combustíveis da ANP",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

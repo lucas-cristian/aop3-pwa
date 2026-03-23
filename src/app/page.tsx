@@ -1,67 +1,82 @@
-import Image from "next/image";
+"use client";
+import { useFetch } from "@/lib/api";
+import { Card, FlashlightCard } from "@/components/ui/Card";
+import Link from "next/link";
+import { Badge } from "@/components/ui/Badge";
 
 export default function Home() {
+  const { data: health } = useFetch<{ status: string }>('/api/health');
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          style={{ height: "auto" }}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="animate-in fade-in duration-700">
+      
+      {/* Hero Section Artools Style */}
+      <div className="mb-24 mt-8 flex flex-col items-start gap-4 text-left">
+        <div className="inline-flex items-center gap-3">
+          <span className={`w-2 h-2 rounded-full ${health?.status === 'ok' ? 'bg-emerald-500 animate-pulse' : 'bg-stone-300'}`}></span>
+          <span className="text-xs font-mono uppercase tracking-[0.2em] text-stone-500">
+            {health?.status === 'ok' ? 'Conectado à Base ANP' : 'Status: Desconhecido'}
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-              style={{ height: "auto" }}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        
+        <h1 className="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[0.9] text-stone-900 max-w-4xl">
+          Painel de Combustíveis.<br />
+          <span className="text-stone-400">Em tempo real.</span>
+        </h1>
+        
+        <p className="text-lg md:text-xl text-stone-500 leading-relaxed max-w-2xl font-light mt-4">
+          Projeto experimental (AOP3) de análise de dados da ANP. Consulta dinâmica da evolução, margens médias e extremos do mercado de combustíveis nas cidades monitoradas.
+        </p>
+
+        <div className="flex gap-4 mt-8 flex-wrap">
+          <Badge variant="stone">Cidades Analisadas</Badge>
+          <Badge variant="emerald">Fonte: API ANP</Badge>
+          <Badge variant="amber">Período: Recente</Badge>
         </div>
-      </main>
+      </div>
+
+      {/* Cards de Navegacao baseados em (Dashboard-List / Artools Flashlight approach) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 border-t border-stone-200">
+        
+        <Link href="/consultas/menor-maior" className="block h-full cursor-pointer">
+           <FlashlightCard title="Menor e Maior Preço" icon="solar:chart-square-linear">
+             Identifique os postos com valores extremos em sua região. Extremamente útil para saber rapidamente o teto e o piso de preços praticados.
+           </FlashlightCard>
+        </Link>
+
+        <Link href="/consultas/preco-medio" className="block h-full cursor-pointer hover:-translate-y-1 transition-transform">
+           <FlashlightCard title="Média de Preços" icon="solar:graph-up-linear">
+             Cruzamento das amostras em banco consolidadas com volumetria (N amostras) por posto e bairro.
+           </FlashlightCard>
+        </Link>
+        
+        <Link href="/consultas/preco-recente" className="block h-full cursor-pointer hover:-translate-y-1 transition-transform">
+           <FlashlightCard title="Valores Recentes" icon="solar:history-linear">
+             Relatório das últimas coletas enviadas do AOP2. Verifique os dados mais quentes direto no painel da ANP.
+           </FlashlightCard>
+        </Link>
+
+        <Link href="/consultas/evolucao" className="block h-full cursor-pointer hover:-translate-y-1 transition-transform">
+           <FlashlightCard title="Evolução Temporal" icon="solar:presentation-graph-linear">
+             Acompanhe o comportamento e as tendências de variação do preço ao longo dos dias para cada posto e combustível específico.
+           </FlashlightCard>
+        </Link>
+
+        <Link href="/graficos" className="block h-full cursor-pointer hover:-translate-y-1 transition-transform md:col-span-2">
+           <div className="flashlight-card h-full border border-stone-300 bg-stone-900 text-stone-100 p-8 flex flex-col justify-between rounded-sm shadow-2xl transition-all duration-500 group">
+             <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-white mb-6">
+               <iconify-icon icon="solar:pie-chart-3-linear" className="text-2xl"></iconify-icon>
+             </div>
+             <div>
+               <h3 className="text-2xl font-display font-medium mb-3 text-white">Análise de Redes - Gráficos</h3>
+               <p className="text-stone-400 text-sm leading-relaxed">
+                 Visualize consolidações avançadas como Ganhos Médios por Combustível ou Distribuição Comparativa. 
+               </p>
+             </div>
+           </div>
+        </Link>
+
+      </div>
     </div>
   );
 }
