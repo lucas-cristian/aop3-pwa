@@ -23,18 +23,17 @@ export function Chart({ data, title, subtitle, colorClass = "bg-stone-900" }: Ch
 
       {/* Overflow container */}
       <div className="overflow-x-auto pb-4">
-        {/* Enforce a minimum width so bars don't squeeze too much on mobile */}
-        <div className="flex items-end gap-4 md:gap-8 h-[250px] min-w-[500px]">
+        <div className="flex items-end gap-8 h-[250px] min-w-full lg:min-w-[500px]">
           {data.map((item, index) => {
             const heightPercentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
             return (
-              <div key={index} className="flex flex-col items-center flex-1 min-w-[40px]">
-                <div className="w-full relative h-[200px] flex items-end group">
+              <div key={index} className="flex flex-col items-center flex-1 min-w-[60px] max-w-[80px]">
+                <div className="w-full relative h-[200px] flex items-end justify-center group">
                   <div 
-                    className={`w-full rounded-t-sm transition-all duration-700 ease-out group-hover:opacity-80 ${colorClass}`} 
+                    className={`w-full max-w-[48px] rounded-t-md transition-all duration-700 ease-out hover:opacity-80 ${colorClass}`} 
                     style={{ height: `${heightPercentage}%`, minHeight: '4px' }}
                   >
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-stone-900 text-white text-xs px-2 py-1 rounded shadow-lg transition-opacity whitespace-nowrap z-10 pointer-events-none font-mono">
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-stone-600 text-[10px] font-semibold whitespace-nowrap z-10 font-mono">
                       {item.value.toFixed(2)}
                     </div>
                   </div>
