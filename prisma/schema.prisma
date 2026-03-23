@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model cidade {
+  id_cidade Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(100)
+  estado    String   @db.Char(2)
+  bairros   bairro[]
+}
+
+model bairro {
+  id_bairro Int     @id @default(autoincrement())
+  nome      String  @db.VarChar(100)
+  id_cidade Int
+  cidade    cidade  @relation(fields: [id_cidade], references: [id_cidade], onDelete: Restrict, onUpdate: Cascade)
+  postos    posto[]
+
+  @@index([id_cidade], map: "fk_bairro_cidade")
+}
+
+model posto {
+  id_posto   Int              @id @default(autoincrement())
+  nome       String           @db.VarChar(150)
+  logradouro String           @db.VarChar(200)
+  numero     String?          @db.VarChar(50)
+  cep        String           @db.Char(9)
+  id_bairro  Int
+  bairro     bairro           @relation(fields: [id_bairro], references: [id_bairro], onDelete: Restrict, onUpdate: Cascade)
+  coletas    coleta[]
+  telefones  telefone_posto[]
+
+  @@index([id_bairro], map: "fk_posto_bairro")
+}
+
+model telefone_posto {
+  id_telefone Int    @id @default(autoincrement())
+  id_posto    Int
+  numero      String @db.VarChar(20)
+  posto       posto  @relation(fields: [id_posto], references: [id_posto], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([id_posto], map: "fk_telefone_posto")
+}
+
+model combustivel {
+  id_combustivel Int      @id @default(autoincrement())
+  descricao      String   @unique(map: "uq_combustivel_descricao") @db.VarChar(50)
+  coletas        coleta[]
+}
+
+model coleta {
+  id_coleta      Int         @id @default(autoincrement())
+  id_posto       Int
+  id_combustivel Int
+  data_coleta    DateTime    @db.Date
+  valor          Decimal     @db.Decimal(6, 3)
+  combustivel    combustivel @relation(fields: [id_combustivel], references: [id_combustivel], onDelete: Restrict, onUpdate: Cascade)
+  posto          posto       @relation(fields: [id_posto], references: [id_posto], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([id_posto, id_combustivel, data_coleta], map: "uq_coleta_unica")
+  @@index([id_combustivel], map: "fk_coleta_combustivel")
+}
