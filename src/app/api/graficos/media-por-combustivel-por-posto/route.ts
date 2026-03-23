@@ -11,9 +11,9 @@ export async function GET() {
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Evolução Média de Preço por Combustível em cada Posto"));
+    return NextResponse.json(buildSuccess(serializedData, "Dados de evolução por posto e combustível recuperados com sucesso"));
   } catch (error) {
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao extrair dados gráficos por posto"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao preparar dados da evolução por posto"), { status: 500 });
   }
 }

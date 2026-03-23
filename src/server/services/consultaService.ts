@@ -1,4 +1,14 @@
 import { ConsultaRepository } from '../repositories/consultaRepository';
+import { 
+  PostoListItem, 
+  CombustivelListItem, 
+  MenorMaiorPrecoItem, 
+  PrecoMedioItem, 
+  PrecoRecenteItem, 
+  EvolucaoItem, 
+  MediaPorCombustivelItem, 
+  MediaPorCombustivelPorPostoItem 
+} from '../types/consultaTypes';
 
 export class ConsultaService {
   private repository: ConsultaRepository;
@@ -7,29 +17,41 @@ export class ConsultaService {
     this.repository = new ConsultaRepository();
   }
 
-  async getMenorMaiorPreco() {
-    return await this.repository.gellAllMenorMaiorPreco();
+  async getMenorMaiorPreco(): Promise<MenorMaiorPrecoItem[]> {
+    return await this.repository.getAllMenorMaiorPreco();
   }
 
-  async getPrecoMedio() {
+  async getPrecoMedio(): Promise<PrecoMedioItem[]> {
     return await this.repository.getAllPrecoMedio();
   }
 
-  async getPrecoRecente() {
+  async getPrecoRecente(): Promise<PrecoRecenteItem[]> {
     return await this.repository.getPrecoRecente();
   }
 
-  async getEvolucao(postoId: number, combustivelId: number) {
+  async getEvolucao(postoId: number, combustivelId: number): Promise<EvolucaoItem[]> {
     return await this.repository.getEvolucao(postoId, combustivelId);
   }
 
-  async getMediaPorCombustivel() {
+  async getMediaPorCombustivel(): Promise<MediaPorCombustivelItem[]> {
     return await this.repository.getMediaPorCombustivel();
   }
 
-  async getPostos() {
+  async getPostos(): Promise<PostoListItem[]> {
     const postos = await this.repository.getPostos();
-    return postos.map((p: any) => ({
+    
+    interface PrismaPosto {
+      id_posto: number;
+      nome: string;
+      bairro: {
+        nome: string;
+        cidade: {
+          nome: string;
+        }
+      }
+    }
+
+    return (postos as unknown as PrismaPosto[]).map((p) => ({
       id_posto: p.id_posto,
       nome: p.nome,
       bairro: p.bairro.nome,
@@ -37,11 +59,11 @@ export class ConsultaService {
     }));
   }
 
-  async getCombustiveis() {
+  async getCombustiveis(): Promise<CombustivelListItem[]> {
     return await this.repository.getCombustiveis();
   }
 
-  async getMediaPorCombustivelPorPosto() {
+  async getMediaPorCombustivelPorPosto(): Promise<MediaPorCombustivelPorPostoItem[]> {
     return await this.repository.getMediaPorCombustivelPorPosto();
   }
 }

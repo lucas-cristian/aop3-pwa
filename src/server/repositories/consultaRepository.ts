@@ -1,9 +1,18 @@
 import { prisma } from '@/lib/prisma';
+import { 
+  MenorMaiorPrecoItem, 
+  PrecoMedioItem, 
+  PrecoRecenteItem, 
+  EvolucaoItem, 
+  MediaPorCombustivelItem, 
+  MediaPorCombustivelPorPostoItem,
+  CombustivelListItem
+} from '../types/consultaTypes';
 
 export class ConsultaRepository {
 
-  async gellAllMenorMaiorPreco() {
-    return await prisma.$queryRaw`
+  async getAllMenorMaiorPreco(): Promise<MenorMaiorPrecoItem[]> {
+    return await prisma.$queryRaw<MenorMaiorPrecoItem[]>`
       SELECT
         p.nome       AS nome_posto,
         CONCAT(p.logradouro, ', ', COALESCE(p.numero, 'S/N'), ' - CEP: ', p.cep) AS endereco,
@@ -29,8 +38,8 @@ export class ConsultaRepository {
     `;
   }
 
-  async getAllPrecoMedio() {
-    return await prisma.$queryRaw`
+  async getAllPrecoMedio(): Promise<PrecoMedioItem[]> {
+    return await prisma.$queryRaw<PrecoMedioItem[]>`
       SELECT
         p.nome                      AS nome_posto,
         b.nome                      AS bairro,
@@ -46,8 +55,8 @@ export class ConsultaRepository {
     `;
   }
 
-  async getPrecoRecente() {
-    return await prisma.$queryRaw`
+  async getPrecoRecente(): Promise<PrecoRecenteItem[]> {
+    return await prisma.$queryRaw<PrecoRecenteItem[]>`
       SELECT 
           p.nome AS nome_posto,
           b.nome AS bairro,
@@ -67,8 +76,8 @@ export class ConsultaRepository {
     `;
   }
 
-  async getEvolucao(postoId: number, combustivelId: number) {
-    return await prisma.$queryRaw`
+  async getEvolucao(postoId: number, combustivelId: number): Promise<EvolucaoItem[]> {
+    return await prisma.$queryRaw<EvolucaoItem[]>`
       SELECT
         p.nome       AS nome_posto,
         b.nome       AS bairro,
@@ -85,8 +94,8 @@ export class ConsultaRepository {
     `;
   }
 
-  async getMediaPorCombustivel() {
-    return await prisma.$queryRaw`
+  async getMediaPorCombustivel(): Promise<MediaPorCombustivelItem[]> {
+    return await prisma.$queryRaw<MediaPorCombustivelItem[]>`
       SELECT 
         c.descricao AS tipo_combustivel,
         co.data_coleta,
@@ -118,7 +127,7 @@ export class ConsultaRepository {
     });
   }
 
-  async getCombustiveis() {
+  async getCombustiveis(): Promise<CombustivelListItem[]> {
     return await prisma.combustivel.findMany({
       select: {
         id_combustivel: true,
@@ -128,8 +137,8 @@ export class ConsultaRepository {
     });
   }
 
-  async getMediaPorCombustivelPorPosto() {
-    return await prisma.$queryRaw`
+  async getMediaPorCombustivelPorPosto(): Promise<MediaPorCombustivelPorPostoItem[]> {
+    return await prisma.$queryRaw<MediaPorCombustivelPorPostoItem[]>`
       SELECT 
         p.nome AS posto,
         c.descricao AS combustivel,

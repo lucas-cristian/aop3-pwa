@@ -7,14 +7,13 @@ export async function GET() {
     const service = new ConsultaService();
     const data = await service.getMenorMaiorPreco();
     
-    // Converte os BigInts do prisma que o JSON não serializa nativamente
     const serializedData = JSON.parse(JSON.stringify(data, (key, value) =>
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Consulta de Menor e Maior Preço"));
+    return NextResponse.json(buildSuccess(serializedData, "Consulta de limites de preço realizada com sucesso"));
   } catch (error) {
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao processar consulta"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao processar consulta de menor e maior preço"), { status: 500 });
   }
 }

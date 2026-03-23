@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
 export const evolucaoQueryParamsSchema = z.object({
-  postoId: z.string().regex(/^\d+$/, "postoId deve ser um número inteiro"),
-  combustivelId: z.string().regex(/^\d+$/, "combustivelId deve ser um número inteiro"),
+  postoId: z.string({ message: "postoId deve ser uma string" })
+    .min(1, "postoId é obrigatório")
+    .regex(/^\d+$/, "postoId deve conter apenas números"),
+  
+  combustivelId: z.string({ message: "combustivelId deve ser uma string" })
+    .min(1, "combustivelId é obrigatório")
+    .regex(/^\d+$/, "combustivelId deve conter apenas números"),
 });

@@ -11,9 +11,9 @@ export async function GET() {
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Consulta de Preço Médio"));
+    return NextResponse.json(buildSuccess(serializedData, "Preço médio global recuperado com sucesso"));
   } catch (error) {
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao processar consulta"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao calcular preço médio global"), { status: 500 });
   }
 }

@@ -21,12 +21,12 @@ export async function GET(request: NextRequest) {
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Consulta de Evolução Realizada"));
+    return NextResponse.json(buildSuccess(serializedData, "Histórico da evolução de preços recuperado com sucesso"));
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(buildError("VALIDATION_ERROR", error.issues[0].message), { status: 400 });
     }
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao processar consulta"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao processar consulta de evolução de preços"), { status: 500 });
   }
 }

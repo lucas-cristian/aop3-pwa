@@ -11,9 +11,9 @@ export async function GET() {
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Listagem de Combustíveis"));
+    return NextResponse.json(buildSuccess(serializedData, "Lista de combustíveis recuperada com sucesso"));
   } catch (error) {
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao listar combustíveis"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao recuperar lista de combustíveis"), { status: 500 });
   }
 }

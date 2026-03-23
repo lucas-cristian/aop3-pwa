@@ -11,9 +11,9 @@ export async function GET() {
       typeof value === 'bigint' ? value.toString() : value
     ));
 
-    return NextResponse.json(buildSuccess(serializedData, "Consulta de Preço Mais Recente"));
+    return NextResponse.json(buildSuccess(serializedData, "Preços mais recentes recuperados com sucesso"));
   } catch (error) {
     console.error(error);
-    return NextResponse.json(buildError("DATABASE_ERROR", "Falha ao processar consulta"), { status: 500 });
+    return NextResponse.json(buildError("DATABASE_ERROR", "Erro ao recuperar coletas mais recentes"), { status: 500 });
   }
 }
