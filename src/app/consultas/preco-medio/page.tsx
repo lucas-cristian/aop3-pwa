@@ -69,7 +69,7 @@ export default function PrecoMedioPage() {
                    <div className="col-span-3 md:text-right">
                       <div className="md:hidden text-[10px] font-mono uppercase text-stone-400 mb-1">Média Registrada</div>
                       <span className="font-display font-bold text-xl text-stone-900 bg-stone-100 py-1.5 px-3 rounded-lg border border-stone-200 inline-block">
-                        R$ {Number(item.preco_medio).toFixed(3)}
+                        {Number(item.preco_medio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                       </span>
                    </div>
 

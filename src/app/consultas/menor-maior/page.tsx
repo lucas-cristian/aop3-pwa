@@ -65,7 +65,7 @@ export default function MenorMaiorPage() {
                   <div className="text-right">
                      <p className="text-[10px] font-mono uppercase text-stone-400 mb-1">Registrado</p>
                      <span className="font-display font-bold text-2xl text-stone-900">
-                       R$ {Number(item.valor_combustivel).toFixed(3)}
+                       {Number(item.valor_combustivel).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                      </span>
                   </div>
                </div>

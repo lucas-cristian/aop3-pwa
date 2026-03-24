@@ -34,7 +34,7 @@ export function Chart({ data, title, subtitle, colorClass = "bg-stone-900" }: Ch
                     style={{ height: `${heightPercentage}%`, minHeight: '4px' }}
                   >
                     <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-stone-600 text-[10px] font-semibold whitespace-nowrap z-10 font-mono">
-                      {item.value.toFixed(2)}
+                      {item.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
                   </div>
                 </div>

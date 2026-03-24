@@ -75,7 +75,7 @@ export default function GraficosPage() {
                        <tr key={i} className="border-b border-stone-100 hover:bg-stone-50 transition-colors text-sm font-medium">
                          <td className="py-4 text-stone-900">{m.posto}</td>
                          <td className="py-4 text-stone-500">{m.combustivel}</td>
-                         <td className="py-4 text-right text-stone-900 font-display">R$ {Number(m.preco_medio).toFixed(3)}</td>
+                         <td className="py-4 text-right text-stone-900 font-display">{Number(m.preco_medio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                        </tr>
                      ))}
                    </tbody>
