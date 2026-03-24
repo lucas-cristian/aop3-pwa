@@ -1,9 +1,10 @@
-=============================================================
-AOP3 - Divulgação do Projeto
-Banco de Dados: Preço de Combustíveis
-Aluno: Lucas Cristian Silva Braz
-Disciplina: Arquitetura de Dados Relacionais I
-=============================================================
+# AOP3 - Divulgação do Projeto
+
+## Identificação do Trabalho
+
+**Banco de Dados:** Preço de Combustíveis  
+**Aluno:** Lucas Cristian Silva Braz  
+**Disciplina:** Arquitetura de Dados Relacionais I
 
 ## 1. Identificação e Objetivo do Projeto
 
