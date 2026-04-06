@@ -7,6 +7,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Iniciando o seed automático do banco de dados...");
 
+  // Guard de segurança: este seed é destrutivo (TRUNCATE).
+  // Em bancos já populados, só permite continuar com FORCE_SEED=true.
+  const existingCidadeRows = await prisma.cidade.count().catch(() => 0);
+  if (existingCidadeRows > 0 && process.env.FORCE_SEED !== 'true') {
+    throw new Error(
+      `Seed destrutivo bloqueado: o banco já possui dados (cidade.count() = ${existingCidadeRows}). ` +
+      `Para executar mesmo assim, rode com FORCE_SEED=true (ex.: FORCE_SEED=true npx prisma db seed).`
+    );
+  }
+
   const sqlPath = path.join(__dirname, 'sql', 'exercicio-AOP2.sql');
   if (!fs.existsSync(sqlPath)) {
     throw new Error(`Arquivo SQL não encontrado em: ${sqlPath}`);
