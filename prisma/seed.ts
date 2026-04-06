@@ -26,9 +26,9 @@ async function main() {
 
   console.log("Limpando dados existentes para evitar duplicação...");
 
-  await prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`);
-
   try {
+    // Alguns provedores MySQL-compatíveis (ex.: TiDB) podem não suportar este comando.
+    await prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 0;`).catch(() => { });
     await prisma.$executeRawUnsafe(`TRUNCATE TABLE coleta;`);
     await prisma.$executeRawUnsafe(`TRUNCATE TABLE combustivel;`);
     await prisma.$executeRawUnsafe(`TRUNCATE TABLE telefone_posto;`).catch(() => { });
@@ -38,7 +38,7 @@ async function main() {
   } catch (e) {
     console.error("Aviso durante o TRUNCATE:", e);
   } finally {
-    await prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`);
+    await prisma.$executeRawUnsafe(`SET FOREIGN_KEY_CHECKS = 1;`).catch(() => { });
   }
 
   console.log("Extraindo e inserindo dados reais do AOP2...");
